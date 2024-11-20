@@ -4,7 +4,7 @@
         "use": "@vercel/python",
         "config": {"maxLambdaSize":"15mb","runtime": "python3.11.5"}
     }],
-    "routes ":[
+    "routes":[
         {
             "src": "/(.*)",
             "dest": "FoodiesShop/wsgi.py"
