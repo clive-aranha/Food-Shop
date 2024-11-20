@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+{% block body_block %}
+<style>
+    /* Center the form-box */
+    .form-box {
+        width: 100%;
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-box h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 28px;
+    }
+
+    .form-box form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-box form input,
+    .form-box form button {
+        margin-bottom: 15px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .form-box form input:focus,
+    .form-box form button:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    .form-box button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-box button:hover {
+        background-color: #0056b3;
+    }
+
+    .form-box a {
+        text-align: center;
+        color: #007bff;
+        text-decoration: none;
+        margin-top: 10px;
+    }
+
+    .form-box a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="form-box">
+    <h2>Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-danger">
+            Sign Up
+        </button>
+    </form>
+    <a href="{% url 'login' %}">Already have an account? Login</a>
+</div>
+
+{% endblock %}

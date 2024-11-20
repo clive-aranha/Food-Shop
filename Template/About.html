@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is where we show data</h1>
+    <button id="api_button">Call API</button>
+    <h1 id="name_section">text</h1>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        //document.getElementById("api_button").addEventListener("click",function(){
+        //    fetch("{% url 'dummy' %}")
+        //    .then((response)=>response.json())
+        //    .then((data)=>{
+        //        console.log(data)
+        //        let element =document.getElementById("name_section")
+        //        element.innerHTML=data["data1"]
+        //    })
+        //    .then((error)=>{
+        //        console.log("Error:",error);
+        //    })
+        //})
+        
+        $.ajax({
+            url:"/dummy/?parameter1=Panipuri",
+            method:'GET',
+            dataType:'json',
+            success:function(data){
+                console.log(data)
+                let element =document.getElementById("name_section")
+                if(element){
+                    element.innerHTML=data["FoodName"] ? data["FoodName"]:"No food found"
+                }
+                
+            },
+            error:function(status,error){
+                console.error("Error",error)
+            }
+        })
+    </script>
+</body>
+</html>
+

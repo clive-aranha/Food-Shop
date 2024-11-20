@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block body_block %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Wishlist</h1>
+
+    {% if viewproduct %}
+        <div class="row justify-content-center">
+            {% for item in viewproduct %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm">
+                        <!-- Product Image -->
+                        <img src="{{ item.product.images.url }}" class="card-img-top img-fluid" alt="{{ item.product.name }}" style="height: 250px; object-fit: cover;">
+
+                        <!-- Product Details -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">Category: {{ item.product.category }}</p>
+                            <p class="card-text">Cost: Rs. {{ item.product.cost }}</p>
+
+                            <!-- Remove from Wishlist Button -->
+                            <form action="{% url 'removewish' item.wishlist_id item.product.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">Your wishlist is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

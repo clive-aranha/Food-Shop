@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+
+{% block body_block %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Cart</h1>
+    {% if user_products %}
+        <div class="row justify-content-center">
+            {% for item in user_products %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm">
+                        <!-- Product Image -->
+                        <img src="{{ item.product.images.url }}" class="card-img-top img-fluid" alt="{{ item.product.name }}" style="height: 250px; object-fit: cover;">
+                        <!-- Product Details -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">Category: {{ item.product.category }}</p>
+                            <p class="card-text">Cost: ₹{{ item.product.cost }}</p>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Quantity</span>
+                                <button class="btn btn-outline-secondary" id="decrementbtn{{ forloop.counter }}">-</button>
+                                <input type="number" id="inputBtn{{ forloop.counter }}" class="form-control text-center" value="{{ item.cart_count }}" min="1">
+                                <button class="btn btn-outline-secondary" id="incrementbtn{{ forloop.counter }}">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">Your cart is empty.</p>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Loop through all products
+        {% for item in user_products %}
+            const decrementBtn{{ forloop.counter }} = document.getElementById("decrementbtn{{ forloop.counter }}");
+            const incrementBtn{{ forloop.counter }} = document.getElementById("incrementbtn{{ forloop.counter }}");
+            const inputBtn{{ forloop.counter }} = document.getElementById("inputBtn{{ forloop.counter }}");
+
+            if (decrementBtn{{ forloop.counter }} && incrementBtn{{ forloop.counter }} && inputBtn{{ forloop.counter }}) {
+                decrementBtn{{ forloop.counter }}.addEventListener("click", function() {
+                    updateQuantity(-1, inputBtn{{ forloop.counter }});
+                });
+
+                incrementBtn{{ forloop.counter }}.addEventListener("click", function() {
+                    updateQuantity(1, inputBtn{{ forloop.counter }});
+                });
+            } else {
+                console.error("One of the buttons or input elements is null for item {{ forloop.counter }}.");
+            }
+        {% endfor %}
+
+        function updateQuantity(change, inputElement) {
+            let currentValue = parseInt(inputElement.value);
+            if (!isNaN(currentValue)) {
+                let newValue = currentValue + change;
+                if (newValue < 1) {
+                    newValue = 1; // Ensure the quantity does not go below 1
+                }
+                inputElement.value = newValue;
+            } else {
+                console.error("Current value is not a number");
+            }
+        }
+    });
+</script>
+{% endblock body_block %}
